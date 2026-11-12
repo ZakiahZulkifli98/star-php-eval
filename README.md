@@ -1,41 +1,121 @@
-# Candidate Technical Evaluation - Star Media Group
+# Star Media Group – Technical Assessment
 
-## Time Limit: 60 - 90 Minutes
+## Overview
 
-### Prerequisites
-- PHP 8.5+ installed
-- Composer 2.x installed
+A Laravel-based article management application developed as part of the Star Media Group technical assessment.
 
-### Quick Setup Instructions
-1. Clone this repository to your local machine.
-2. Run `composer install`
-3. Copy the environment file: `cp .env.example .env`
-4. Generate app key: `php artisan key:generate`
-5. Create SQLite file if needed (see database/ folder) and run migrations: `php artisan migrate`
-6. Start dev server: `php artisan serve`
+The application allows users to browse articles, view article details, and search articles by title. It also provides a JSON API endpoint for retrieving articles with their associated categories.
 
-### Tasks
-#### 1. **Migrations & Models:** Create the Article and Category models with standard Eloquent relationships (a Category has many Articles).
-- `Category` Model Fields:
-  - `id` (primary key)
-  - `name` (string)
-  - `Article` Model Fields:
-    - `title` (string)
-    - `summary` (string)
-    - `body` (text)
-    - `published_at` (timestamp, nullable)
-    - `permalink` (string)
-    - `category_id` (foreign key referencing `categories`)
-    - _(Optional)_: Add 1 or 2 extra properties you feel are essential for a news portal article (e.g., `status`, `thumbnail_url`, `author`).
-#### 2. **Factories & Database Seeding**
-- Create an `ArticleFactory` using Faker for titles, summary, and body content.
-- Configure `DatabaseSeeder.php` so running `php artisan db:seed` automatically populates the database with at least 5 categories and 20 articles.
-#### 3. **Controller & API Endpoint:** Create a GET controller method returning articles formatted as JSON. Prevent N+1 database queries using eager loading (`with`).
-#### 4. **Frontend Integration:**
-- **Article List View:** Render a list of articles using standard Blade views styled with Bootstrap (or Livewire).
-- **Search Filter:** Implement a simple real-time JavaScript (or Livewire) search filter to filter articles by title on the list page.
-- **Article Detail Page:** Create a single article view page that displays the full title, body, category, and published date when an article from the list is clicked.
+## Requirements
 
-### Submission Guidelines
-- Commit code cleanly with clear commit messages.
-- Push your completed work back to your repository and share the repository link with us.
+- PHP 8.5+
+- Composer 2.x
+- SQLite
+
+## Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/ZakiahZulkifli98/star-php-eval.git
+    cd star-php-eval
+    ```
+
+2. Install PHP dependencies:
+
+    ```bash
+    composer install
+    ```
+
+3. Create the environment file:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+4. Generate the application key:
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5. Create the SQLite database file:
+
+    ```bash
+    touch database/database.sqlite
+    ```
+
+6. Configure `.env`:
+
+    ```env
+    DB_CONNECTION=sqlite
+    ```
+
+7. Run migrations and seed the database:
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+8. Start the development server:
+
+    ```bash
+    php artisan serve
+    ```
+
+9. Open the application:
+
+    `http://127.0.0.1:8000`
+
+## Features
+
+- Article listing with category information.
+- Real-time article title search using JavaScript.
+- Article detail page displaying the full article content.
+- SEO-friendly article URLs using permalinks.
+- JSON API endpoint with eager-loaded category relationships.
+- Database migrations, model relationships, factories and seeders.
+
+## Routes
+
+| Method | Endpoint                | Description               |
+| ------ | ----------------------- | ------------------------- |
+| GET    | `/articles`             | Display article listing   |
+| GET    | `/articles/{permalink}` | Display article details   |
+| GET    | `/api/articles`         | Retrieve articles as JSON |
+
+## Database Structure
+
+### Categories
+
+- `id`
+- `name`
+- `created_at`
+- `updated_at`
+
+### Articles
+
+- `id`
+- `title`
+- `summary`
+- `body`
+- `published_at`
+- `permalink`
+- `status`
+- `author`
+- `category_id`
+- `created_at`
+- `updated_at`
+
+### Relationships
+
+- A category has many articles.
+- An article belongs to one category.
+
+## Technology Stack
+
+- Laravel
+- PHP
+- SQLite
+- Blade
+- Bootstrap 5
